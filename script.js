@@ -41,12 +41,32 @@ function loop() {
         }
 
     } else if (keyPressed[' ']) {
-        // Use brake deceleration when SPACE is pressed
-        car.acceleration = -Math.sign(car.velocity.x) * car.brake_deceleration;
+        // Apply regular braking if the braking won't reverse velocity
+        if (car.brake_deceleration * dt < Math.abs(car.velocity.x)) {
+            car.acceleration = -Math.sign(car.velocity.x) * car.brake_deceleration;
+
+        // When the car is moving slowly
+        } else {
+            if (dt !== 0) {
+                // Calculate exact deceleration needed to stop
+                car.acceleration = -car.velocity.x / dt;
+            } else {
+                car.acceleration = 0;
+            }
+        }
 
     } else {
-        // Use free deceleration when nothing is pressed
-        car.acceleration = -Math.sign(car.velocity.x) * car.free_deceleration;
+        // Same logic as brake deceleration
+        if (car.free_deceleration * dt < Math.abs(car.velocity.x)) {
+            car.acceleration = -Math.sign(car.velocity.x) * car.free_deceleration;
+
+        } else {
+            if (dt !== 0) {
+                car.acceleration = -car.velocity.x / dt;
+            } else {
+                car.acceleration = 0;
+            }
+        }
 
     }
 
