@@ -10,7 +10,7 @@ class Car {
         this.acceleration = 0;
         this.max_acceleration = 50;
         this.brake_deceleration = 30;
-        this.free_deceleration = 5;
+        this.free_deceleration = 20;
 
         this.steering = 0;      // Degrees; Positive = Left; Negative = Right
         this.max_steering = 20;
@@ -33,7 +33,8 @@ class Car {
         this.obj.appendChild(this.model);
 
         this.hit = document.createElement("a-box");
-        this.hit.setAttribute("height", 2.5);
+        this.hit.setAttribute("static-body", "");
+        this.hit.setAttribute("height", 2.75);
         this.hit.setAttribute("width", 2.5);
         this.hit.setAttribute("depth", length + 1);
         this.hit.setAttribute("color", "green");

@@ -6,6 +6,7 @@
   <title>Car Steering A-Frame</title>
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://threejs.org/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
   <script src="helpers/helper.js"></script>
   <script src="helpers/Vector.js"></script>
   <script src="models/Car.js"></script>
@@ -13,13 +14,61 @@
 </head>
 
 <body>
-<a-scene>
+<a-scene physics="debug: true">
   <a-assets>
     <a-asset-item src="models/scene.glb"></a-asset-item>
   </a-assets>
 
+  <a-sphere dynamic-body radius="2" position="0 5 -5"></a-sphere>
+
   <a-entity id="camera" camera position="0 5 5" rotation="-30 0 0" look-controls="enabled: false"></a-entity>
-  <a-circle position="0 0 0" rotation="-90 90 0" radius="50" material="alphaTest: 0.5" color="#86e4b8" src="assets/grid.png" repeat="5 5" shader="flat"></a-circle>
+
+  <a-plane
+          static-body
+          position="0 0 0"
+          rotation="-90 0 0"
+          height="100"
+          width="100"
+          material="alphaTest: 0.5" color="#86e4b8" src="assets/grid.png" repeat="5 5"
+          shader="flat">
+  </a-plane>
+  <a-plane
+          static-body
+          position="0 25 -50"
+          rotation="0 0 0"
+          color="blue"
+          height="50"
+          width="100"
+          opacity="0.5">
+  </a-plane>
+  <a-plane
+          static-body
+          position="0 25 50"
+          rotation="180 0 0"
+          color="blue"
+          height="50"
+          width="100"
+          opacity="0.5">
+  </a-plane>
+  <a-plane
+          static-body
+          position="-50 25 0"
+          rotation="180 270 0"
+          color="blue"
+          height="50"
+          width="100"
+          opacity="0.5">
+  </a-plane>
+  <a-plane
+          static-body
+          position="50 25 0"
+          rotation="180 90 0"
+          color="blue"
+          height="50"
+          width="100"
+          opacity="0.5">
+  </a-plane>
+
   <a-sky color="#d1f4ff"></a-sky>
 </a-scene>
 </body>
