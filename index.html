@@ -14,14 +14,16 @@
 </head>
 
 <body>
-<a-scene physics="debug: true">
+<a-scene physics="debug: true; iterations: 1">
+
+  <a-entity id="camera" camera position="0 5 5" rotation="-30 0 0" look-controls="enabled: false"></a-entity>
+
   <a-assets>
     <a-asset-item src="models/scene.glb"></a-asset-item>
   </a-assets>
 
-  <a-sphere dynamic-body radius="2" position="0 5 -5"></a-sphere>
+  <a-sphere dynamic-body radius="2" position="0 5 -10" color="lightgrey" shader="flat"></a-sphere>
 
-  <a-entity id="camera" camera position="0 5 5" rotation="-30 0 0" look-controls="enabled: false"></a-entity>
 
   <a-plane
           static-body

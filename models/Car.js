@@ -8,9 +8,9 @@ class Car {
         this.max_velocity = 30;
 
         this.acceleration = 0;
-        this.max_acceleration = 50;
+        this.max_acceleration = 60;
         this.brake_deceleration = 30;
-        this.free_deceleration = 20;
+        this.free_deceleration = 30;
 
         this.steering = 0;      // Degrees; Positive = Left; Negative = Right
         this.max_steering = 20;
@@ -32,16 +32,16 @@ class Car {
         this.model.setAttribute("rotation", `0 ${this.modelAngleOffset} 0`);
         this.obj.appendChild(this.model);
 
-        this.hit = document.createElement("a-box");
-        this.hit.setAttribute("static-body", "");
-        this.hit.setAttribute("height", 2.75);
-        this.hit.setAttribute("width", 2.5);
-        this.hit.setAttribute("depth", length + 1);
-        this.hit.setAttribute("color", "green");
-        this.hit.setAttribute("opacity", "0");
-        this.hit.setAttribute("shader", "flat");
-        this.hit.setAttribute("position", `0 0.75 0`);
-        this.obj.appendChild(this.hit);
+        this.hitbox = document.createElement("a-box");
+        this.hitbox.setAttribute("static-body", "");
+        this.hitbox.setAttribute("height", 2.75);
+        this.hitbox.setAttribute("width", 2.5);
+        this.hitbox.setAttribute("depth", length + 1);
+        this.hitbox.setAttribute("color", "green");
+        this.hitbox.setAttribute("opacity", "0");
+        this.hitbox.setAttribute("shader", "flat");
+        this.hitbox.setAttribute("position", `0 0.75 0`);
+        this.obj.appendChild(this.hitbox);
     }
 
     update(dt) {

@@ -79,7 +79,13 @@ function loop() {
     } else if (keyPressed['ArrowLeft'] || keyPressed['a']) {
         car.steering += steeringFactor * dt;
     } else {
-        car.steering = 0;
+        // Gradually return steering to 0
+        if (Math.abs(car.steering) < steeringFactor * dt) {
+            car.steering = 0;
+        } else {
+            car.steering -= Math.sign(car.steering) * steeringFactor * dt;
+        }
+
     }
 
     // Limit steering
