@@ -6,7 +6,7 @@ let camera;
 window.onload = function () {
     const scene = document.querySelector("a-scene");
     car = new Car(0, 0, 90, 4);
-    scene.appendChild(car.model);
+    scene.appendChild(car.obj);
     camera = document.querySelector("#camera");
 
     loop();

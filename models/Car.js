@@ -4,10 +4,8 @@ class Car {
         this.angle = angle;     // Degrees
         this.length = length;
 
-        this.y = 0.5;
-
         this.velocity = new Vector(0, 0);
-        this.max_velocity = 25;
+        this.max_velocity = 30;
 
         this.acceleration = 0;
         this.max_acceleration = 50;
@@ -15,13 +13,34 @@ class Car {
         this.free_deceleration = 5;
 
         this.steering = 0;      // Degrees; Positive = Left; Negative = Right
-        this.max_steering = 25;
+        this.max_steering = 20;
 
-        this.model = document.createElement("a-box");
-        this.model.setAttribute("color", "red");
-        this.model.setAttribute("depth", length);
-        this.model.setAttribute("position", `${x} ${this.y} ${z}`);
-        this.model.setAttribute("rotation", `0 ${angle} 0`);
+        // Tweaks to model
+        this.angleOffset = 90;
+        this.modelAngleOffset = -38.525;
+        this.y = 0.5;   // Only needed for setting position
+        this.modelScale = 2;
+
+        this.obj = document.createElement("a-entity");
+        this.obj.setAttribute("position", `${this.position.x} ${this.y} ${this.position.z}`);
+        this.obj.setAttribute("rotation", `0 ${this.angle + this.angleOffset} 0`);
+
+        this.model = document.createElement("a-gltf-model");
+        this.model.setAttribute("src","models/low_poly_sedan.glb");
+        this.model.setAttribute("scale", `${this.modelScale} ${this.modelScale} ${this.modelScale}`);
+        this.model.setAttribute("position", `0 -0.6 0`);
+        this.model.setAttribute("rotation", `0 ${this.modelAngleOffset} 0`);
+        this.obj.appendChild(this.model);
+
+        this.hit = document.createElement("a-box");
+        this.hit.setAttribute("height", 2.5);
+        this.hit.setAttribute("width", 2.5);
+        this.hit.setAttribute("depth", length + 1);
+        this.hit.setAttribute("color", "green");
+        this.hit.setAttribute("opacity", "0");
+        this.hit.setAttribute("shader", "flat");
+        this.hit.setAttribute("position", `0 0.75 0`);
+        this.obj.appendChild(this.hit);
     }
 
     update(dt) {
@@ -46,8 +65,8 @@ class Car {
         this.angle += radiansToDegrees(angular_velocity) * dt;
 
         // Update model position and rotation
-        this.model.setAttribute("position", `${this.position.x} ${this.y} ${this.position.z}`);
-        this.model.setAttribute("rotation", `0 ${this.angle + 90} 0`);
+        this.obj.setAttribute("position", `${this.position.x} ${this.y} ${this.position.z}`);
+        this.obj.setAttribute("rotation", `0 ${this.angle + this.angleOffset} 0`);
     }
 
 }
