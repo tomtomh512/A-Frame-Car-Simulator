@@ -2,7 +2,7 @@ class Car {
     constructor(x, z, angle, length) {
         this.position = new Vector(x, z);   // x and z position of car (y irrelevant)
         this.angle = angle;     // Degrees
-        this.length = length;
+        this.length = 4;
 
         this.velocity = new Vector(0, 0);
         this.max_velocity = 30;
@@ -36,7 +36,7 @@ class Car {
         this.hitbox.setAttribute("static-body", "");
         this.hitbox.setAttribute("height", 2.75);
         this.hitbox.setAttribute("width", 2.5);
-        this.hitbox.setAttribute("depth", length + 1);
+        this.hitbox.setAttribute("depth", 5);
         this.hitbox.setAttribute("color", "green");
         this.hitbox.setAttribute("opacity", "0");
         this.hitbox.setAttribute("shader", "flat");

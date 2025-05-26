@@ -5,7 +5,7 @@ let camera;
 
 window.onload = function () {
     const scene = document.querySelector("a-scene");
-    car = new Car(0, 0, 90, 4);
+    car = new Car(0, 0, 90);
     scene.appendChild(car.obj);
     camera = document.querySelector("#camera");
 
@@ -95,8 +95,16 @@ function loop() {
     const camX = car.position.x;
     const camY = 7
     const camZ = car.position.z + 10;
+    const camAngle = -30;
     camera.setAttribute("position", `${camX} ${camY} ${camZ}`);
-    camera.setAttribute("rotation", `-30 0 0`);
+    camera.setAttribute("rotation", `${camAngle} 0 0`);
+
+    // const camX = car.position.x;
+    // const camY = 12
+    // const camZ = car.position.z + 10;
+    // const camAngle = -45;
+    // camera.setAttribute("position", `${camX} ${camY} ${camZ}`);
+    // camera.setAttribute("rotation", `${camAngle} 0 0`);
 
     car.update(dt);
 
