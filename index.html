@@ -10,11 +10,13 @@
   <script src="helpers/helper.js"></script>
   <script src="helpers/Vector.js"></script>
   <script src="models/Car.js"></script>
+  <script src="models/Sedan.js"></script>
+  <script src="models/Van.js"></script>
   <script src="script.js"></script>
 </head>
 
 <body>
-<a-scene physics="debug: true; iterations: 1">
+<a-scene physics="debug: false; iterations: 1; friction: 0.5;">
 
   <a-entity id="camera" camera position="0 5 5" rotation="-30 0 0" look-controls="enabled: false"></a-entity>
 
@@ -22,7 +24,7 @@
     <a-asset-item src="models/scene.glb"></a-asset-item>
   </a-assets>
 
-  <a-sphere dynamic-body radius="2" position="0 5 -10" color="lightgrey" shader="flat"></a-sphere>
+  <a-sphere dynamic-body id="ball" radius="2" position="0 5 -10" color="lightgrey" shader="flat"></a-sphere>
 
 
   <a-plane

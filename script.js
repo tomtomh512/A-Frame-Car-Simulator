@@ -1,12 +1,12 @@
-let car;
+let player;
 let lastTime = 0;
 let keyPressed = {};
 let camera;
 
 window.onload = function () {
     const scene = document.querySelector("a-scene");
-    car = new Car(0, 0, 90);
-    scene.appendChild(car.obj);
+    player = new Sedan(0, 0, 90);
+    scene.appendChild(player.obj);
     camera = document.querySelector("#camera");
 
     loop();
@@ -14,9 +14,6 @@ window.onload = function () {
 
 document.addEventListener('keydown', (event) => { keyPressed[event.key] = true });
 document.addEventListener('keyup', (event) => { keyPressed[event.key] = false });
-
-let accelerationFactor = 50;
-let steeringFactor = 30;    // 30 Degrees per second
 
 function loop() {
     const currentTime = performance.now();
@@ -26,87 +23,92 @@ function loop() {
     // Move forward and backward
     if (keyPressed['ArrowUp'] || keyPressed['w']) {
         // If moving backward and press UP, apply braking
-        if (car.velocity.x < 0) {
-            car.acceleration = car.brake_deceleration;
+        if (player.velocity.x < 0) {
+            player.acceleration = player.brake_deceleration;
         } else {
-            car.acceleration += accelerationFactor * dt;
+            player.acceleration += player.acceleration_factor * dt;
         }
 
     } else if (keyPressed['ArrowDown'] || keyPressed['s']) {
         // If moving forward and press DOWN, apply braking
-        if (car.velocity.x > 0) {
-            car.acceleration = -car.brake_deceleration;
+        if (player.velocity.x > 0) {
+            player.acceleration = -player.brake_deceleration;
         } else {
-            car.acceleration -= accelerationFactor * dt;
+            player.acceleration -= player.acceleration_factor * dt;
         }
 
     } else if (keyPressed[' ']) {
         // Apply regular braking if the braking won't reverse velocity
-        if (car.brake_deceleration * dt < Math.abs(car.velocity.x)) {
-            car.acceleration = -Math.sign(car.velocity.x) * car.brake_deceleration;
+        if (player.brake_deceleration * dt < Math.abs(player.velocity.x)) {
+            player.acceleration = -Math.sign(player.velocity.x) * player.brake_deceleration;
 
-        // When the car is moving slowly
+        // When the player is moving slowly
         } else {
             if (dt !== 0) {
                 // Calculate exact deceleration needed to stop
-                car.acceleration = -car.velocity.x / dt;
+                player.acceleration = -player.velocity.x / dt;
             } else {
-                car.acceleration = 0;
+                player.acceleration = 0;
             }
         }
 
     } else {
         // Same logic as brake deceleration
-        if (car.free_deceleration * dt < Math.abs(car.velocity.x)) {
-            car.acceleration = -Math.sign(car.velocity.x) * car.free_deceleration;
+        if (player.free_deceleration * dt < Math.abs(player.velocity.x)) {
+            player.acceleration = -Math.sign(player.velocity.x) * player.free_deceleration;
 
         } else {
             if (dt !== 0) {
-                car.acceleration = -car.velocity.x / dt;
+                player.acceleration = -player.velocity.x / dt;
             } else {
-                car.acceleration = 0;
+                player.acceleration = 0;
             }
         }
 
     }
 
     // Limit acceleration
-    car.acceleration = Math.max(-car.max_acceleration, Math.min(car.acceleration, car.max_acceleration));
+    player.acceleration = Math.max(-player.max_acceleration, Math.min(player.acceleration, player.max_acceleration));
 
     // Move left and right
     if (keyPressed['ArrowRight'] || keyPressed['d']) {
-        car.steering -= steeringFactor * dt;
+        player.steering -= player.steering_factor * dt;
     } else if (keyPressed['ArrowLeft'] || keyPressed['a']) {
-        car.steering += steeringFactor * dt;
+        player.steering += player.steering_factor * dt;
     } else {
         // Gradually return steering to 0
-        if (Math.abs(car.steering) < steeringFactor * dt) {
-            car.steering = 0;
+        if (Math.abs(player.steering) < player.steering_factor * dt) {
+            player.steering = 0;
         } else {
-            car.steering -= Math.sign(car.steering) * steeringFactor * dt;
+            player.steering -= Math.sign(player.steering) * player.steering_factor * dt;
         }
-
     }
 
     // Limit steering
-    car.steering = Math.max(-car.max_steering, Math.min(car.steering, car.max_steering));
+    player.steering = Math.max(-player.max_steering, Math.min(player.steering, player.max_steering));
 
-    // Camera follow
-    const camX = car.position.x;
-    const camY = 7
-    const camZ = car.position.z + 10;
-    const camAngle = -30;
+    // Camera
+    let camOffset = new Vector(-10, 0).rotate(-player.angle);
+    let camX = player.position.x + camOffset.x;
+    let camY = player.y + 7;
+    let camZ = player.position.z + camOffset.z;
+
+    let camAngleX = -30;
+    let camAngleY = player.angle - 90;
+    let camAngleZ = 0;
+
+    // let camX = player.position.x;
+    // let camY = player.y + 7;
+    // let camZ = player.position.z + 10;
+    //
+    // let camAngleX = -30;
+    // let camAngleY = 0;
+    // let camAngleZ = 0;
+
     camera.setAttribute("position", `${camX} ${camY} ${camZ}`);
-    camera.setAttribute("rotation", `${camAngle} 0 0`);
+    camera.setAttribute("rotation", `${camAngleX} ${camAngleY} ${camAngleZ}`);
 
-    // const camX = car.position.x;
-    // const camY = 12
-    // const camZ = car.position.z + 10;
-    // const camAngle = -45;
-    // camera.setAttribute("position", `${camX} ${camY} ${camZ}`);
-    // camera.setAttribute("rotation", `${camAngle} 0 0`);
-
-    car.update(dt);
+    player.update(dt);
 
     requestAnimationFrame(loop);
 }
