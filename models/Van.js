@@ -1,19 +1,13 @@
 class Van extends Car {
     constructor(x, z, angle) {
         super(x, z, angle, 3.5, 15, 50, 50, 40, 30, 35, 25);
-
-        this.modelOffsetX = 0;
-        this.modelOffsetY = -0.6;
-        this.modelOffsetZ = 0;
-        this.modelAngleOffsetX = 0;
-        this.modelAngleOffsetY = -38.525;
-        this.modelAngleOffsetZ = 0;
         this.modelScale = 2.2;
 
         this.model.setAttribute("src","models/low_poly_van.glb");
         this.model.setAttribute("scale", `${this.modelScale} ${this.modelScale} ${this.modelScale}`);
-        this.model.setAttribute("position", `${this.modelOffsetX} ${this.modelOffsetY} ${this.modelOffsetZ}`);
-        this.model.setAttribute("rotation", `${this.modelAngleOffsetX} ${this.modelAngleOffsetY} ${this.modelAngleOffsetZ}`);
+        // Model offsets
+        this.model.setAttribute("position", "0 -0.6 0");
+        this.model.setAttribute("rotation", "0 -38.525 0");
 
         this.hitbox.setAttribute("static-body", "");
         this.hitbox.setAttribute("height", 2.1);
